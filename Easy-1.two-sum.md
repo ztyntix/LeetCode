@@ -22,19 +22,17 @@ return [0, 1].
 - Support Language: JAVA
 
 ```java
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
-const twoSum = function (nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const diff = target - nums[i];
-    if (map.has(diff)) {
-      return [map.get(diff), i];
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(target - nums[i])) {
+                return new int[] {map.get(target - nums[i]), i};
+            }
+            map.put(nums[i], i);
+        }
+        return new int[0];
     }
-    map.set(nums[i], i);
-  }
-};
+}
 ```
