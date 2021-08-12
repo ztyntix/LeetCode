@@ -1,35 +1,26 @@
 ## Problem
 
-https://leetcode.com/problems/remove-element/
+https://leetcode.com/problems/implement-strstr/
 
 ## Problem Description
 
 ```
-Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The relative order of the elements may be changed.
+Implement strStr().
 
-Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.
+Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
-Return k after placing the final result in the first k slots of nums.
+Clarification:
 
-Do not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.
+What should we return when needle is an empty string? This is a great question to ask during an interview.
 
-Custom Judge:
+For the purpose of this problem, we will return 0 when needle is an empty string. This is consistent to C's strstr() and Java's indexOf().
 
-The judge will test your solution with the following code:
+ 
 
-int[] nums = [...]; // Input array
-int val = ...; // Value to remove
-int[] expectedNums = [...]; // The expected answer with correct length.
-                            // It is sorted with no values equaling val.
+Example 1:
 
-int k = removeElement(nums, val); // Calls your implementation
-
-assert k == expectedNums.length;
-sort(nums, 0, k); // Sort the first k elements of nums
-for (int i = 0; i < actualLength; i++) {
-    assert nums[i] == expectedNums[i];
-}
-If all assertions pass, then your solution will be accepted.
+Input: haystack = "hello", needle = "ll"
+Output: 2
 ```
 
 ## Code
@@ -38,15 +29,19 @@ If all assertions pass, then your solution will be accepted.
 
 ```JAVA
 class Solution {
-    public int removeElement(int[] nums, int val) {
-        if (nums == null || nums.length == 0) return 0;
+    public int strStr(String haystack, String needle) {
+        if (needle == null || needle.length() == 0) return 0;
+        if (haystack == null || haystack.length() == 0 || haystack.length() < needle.length()) return -1;
         
-        int left = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] == val) continue;
-            nums[left++] = nums[i]; 
+        for (int i = 0; i < haystack.length() - needle.length() + 1; i++) {
+            int index = i;
+            for (int j = 0; j < needle.length(); j++) {
+                if (haystack.charAt(index) != needle.charAt(j)) break;
+                if (j == needle.length() - 1) return i;
+                index++;
+            }
         }
-        return left;
+        return -1;
     }
 }
 ```
